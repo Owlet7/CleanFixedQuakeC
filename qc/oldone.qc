@@ -249,8 +249,8 @@ void() finale_4 =
 
 // switch cd track
 	WriteByte (MSG_ALL, SVC_CDTRACK);
-	WriteByte (MSG_ALL, 3);
-	WriteByte (MSG_ALL, 3);
+	WriteByte (MSG_ALL, 16);
+	WriteByte (MSG_ALL, 16);
 	lightstyle(0, "m");
 };
 
