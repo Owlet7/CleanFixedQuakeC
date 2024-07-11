@@ -53,8 +53,8 @@ W_FireAxe
 */
 void() W_FireAxe =
 {
-	local vector source;
-	local vector org;
+	local	vector	source;
+	local	vector	org;
 
 	makevectors (self.v_angle);
 	source = self.origin + '0 0 16';
@@ -87,7 +87,7 @@ void() W_FireAxe =
 
 vector() wall_velocity =
 {
-	local vector vel;
+	local vector	vel;
 
 	vel = normalize (self.velocity);
 	vel = normalize(vel + v_up*(random()- 0.5) + v_right*(random()- 0.5));
@@ -105,7 +105,7 @@ SpawnMeatSpray
 */
 void(vector org, vector vel) SpawnMeatSpray =
 {
-	local entity missile;
+	local	entity missile;
 
 	missile = spawn ();
 	missile.owner = self;
@@ -119,7 +119,7 @@ void(vector org, vector vel) SpawnMeatSpray =
 
 	missile.avelocity = '3000 1000 2000';
 
-	// set missile duration
+// set missile duration
 	missile.nextthink = time + 1;
 	missile.think = SUB_Remove;
 
@@ -145,7 +145,7 @@ spawn_touchblood
 */
 void(float damage) spawn_touchblood =
 {
-	local vector vel;
+	local vector	vel;
 
 	vel = wall_velocity () * 0.2;
 	SpawnBlood (self.origin + vel*0.01, vel, damage);
@@ -172,8 +172,8 @@ Collects multiple small damages into a single damage
 ==============================================================================
 */
 
-entity multi_ent;
-float multi_damage;
+entity	multi_ent;
+float	multi_damage;
 
 void() ClearMultiDamage =
 {
@@ -218,7 +218,7 @@ TraceAttack
 */
 void(float damage, vector dir) TraceAttack =
 {
-	local vector vel, org;
+	local	vector	vel, org;
 
 	vel = normalize(dir + v_up*crandom() + v_right*crandom());
 	vel = vel + 2*trace_plane_normal;
@@ -251,8 +251,8 @@ Go to the trouble of combining multiple pellets into a single damage call.
 */
 void(float shotcount, vector dir, vector spread) FireBullets =
 {
-	local vector direction;
-	local vector src;
+	local	vector direction;
+	local	vector	src;
 
 	makevectors(self.v_angle);
 
@@ -344,11 +344,10 @@ void() BecomeExplosion =
 
 void() T_MissileTouch =
 {
-	local float damg;
+	local float	damg;
 
 	if (other == self.owner)
-		// don't explode on owner
-		return;
+		return;		// don't explode on owner
 
 	if (pointcontents(self.origin) == CONTENT_SKY)
 	{
@@ -361,8 +360,7 @@ void() T_MissileTouch =
 	if (other.health)
 	{
 		if (other.classname == "monster_shambler")
-			// mostly immune
-			damg = damg * 0.5;
+			damg = damg * 0.5;	// mostly immune
 		T_Damage (other, self, self.owner, damg );
 	}
 
@@ -390,7 +388,7 @@ W_FireRocket
 */
 void() W_FireRocket =
 {
-	local entity missile;
+	local	entity missile;
 
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 
@@ -404,7 +402,8 @@ void() W_FireRocket =
 	missile.solid = SOLID_BBOX;
 	missile.classname = "missile";
 
-	// set missile speed
+// set missile speed
+
 	makevectors (self.v_angle);
 	missile.velocity = aim(self, 1000);
 	missile.velocity = missile.velocity * 1000;
@@ -412,7 +411,7 @@ void() W_FireRocket =
 
 	missile.touch = T_MissileTouch;
 
-	// set missile duration
+// set missile duration
 	missile.nextthink = time + 5;
 	missile.think = SUB_Remove;
 
@@ -436,8 +435,8 @@ LightningDamage
 */
 void(vector p1, vector p2, entity from, float damage) LightningDamage =
 {
-	local entity e1, e2;
-	local vector f;
+	local entity		e1, e2;
+	local vector		f;
 
 	f = p2 - p1;
 	normalize (f);
@@ -480,8 +479,8 @@ void(vector p1, vector p2, entity from, float damage) LightningDamage =
 
 void() W_FireLightning =
 {
-	local vector org;
-	local float cells;
+	local	vector		org;
+	local	float		cells;
 
 	if (self.ammo_cells < 1)
 	{
@@ -490,7 +489,7 @@ void() W_FireLightning =
 		return;
 	}
 
-	// explode if under water
+// explode if under water
 	if (self.waterlevel > 1)
 	{
 		cells = self.ammo_cells;
@@ -546,15 +545,13 @@ void() GrenadeExplode =
 void() GrenadeTouch =
 {
 	if (other == self.owner)
-		// don't explode on owner
-		return;
+		return;		// don't explode on owner
 	if (other.takedamage == DAMAGE_AIM)
 	{
 		GrenadeExplode();
 		return;
 	}
-	// bounce sound
-	sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM);	// bounce sound
 	if (self.velocity == '0 0 0')
 		self.avelocity = '0 0 0';
 };
@@ -566,7 +563,7 @@ W_FireGrenade
 */
 void() W_FireGrenade =
 {
-	local entity missile;
+	local	entity missile;
 
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 
@@ -580,7 +577,8 @@ void() W_FireGrenade =
 	missile.solid = SOLID_BBOX;
 	missile.classname = "grenade";
 
-	// set missile speed
+// set missile speed
+
 	makevectors (self.v_angle);
 
 	if (self.v_angle_x)
@@ -598,7 +596,7 @@ void() W_FireGrenade =
 
 	missile.touch = GrenadeTouch;
 
-	// set missile duration
+// set missile duration
 	missile.nextthink = time + 2.5;
 	missile.think = GrenadeExplode;
 
@@ -643,7 +641,7 @@ void(vector org, vector dir) launch_spike =
 
 void() W_FireSuperSpikes =
 {
-	local vector dir;
+	local vector	dir;
 
 	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
 	self.attack_finished = time + 0.2;
@@ -658,7 +656,7 @@ void() W_FireSuperSpikes =
 
 void(float ox) W_FireSpikes =
 {
-	local vector dir;
+	local vector	dir;
 
 	makevectors (self.v_angle);
 
@@ -691,8 +689,7 @@ void() spike_touch =
 		return;
 
 	if (other.solid == SOLID_TRIGGER)
-		// trigger field, do nothing
-		return;
+		return;	// trigger field, do nothing
 
 	if (pointcontents(self.origin) == CONTENT_SKY)
 	{
@@ -700,7 +697,7 @@ void() spike_touch =
 		return;
 	}
 
-	// hit something that bleeds
+// hit something that bleeds
 	if (other.takedamage)
 	{
 		spawn_touchblood (9);
@@ -731,8 +728,7 @@ void() superspike_touch =
 		return;
 
 	if (other.solid == SOLID_TRIGGER)
-		// trigger field, do nothing
-		return;
+		return;	// trigger field, do nothing
 
 	if (pointcontents(self.origin) == CONTENT_SKY)
 	{
@@ -740,7 +736,7 @@ void() superspike_touch =
 		return;
 	}
 
-	// hit something that bleeds
+// hit something that bleeds
 	if (other.takedamage)
 	{
 		spawn_touchblood (18);
@@ -770,8 +766,7 @@ PLAYER WEAPON USE
 
 void() W_SetCurrentAmmo =
 {
-	// get out of any weapon firing states
-	player_run ();
+	player_run ();		// get out of any weapon firing states
 
 	self.items = self.items - ( self.items & (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS) );
 
@@ -840,7 +835,7 @@ void() W_SetCurrentAmmo =
 
 float() W_BestWeapon =
 {
-	local float it;
+	local	float	it;
 
 	it = self.items;
 
@@ -870,7 +865,7 @@ float() W_CheckNoAmmo =
 
 	W_SetCurrentAmmo ();
 
-	// drop the weapon down
+// drop the weapon down
 	return FALSE;
 };
 
@@ -892,15 +887,13 @@ void()	player_rocket1;
 
 void() W_Attack =
 {
-	local float r;
+	local	float	r;
 
 	if (!W_CheckNoAmmo ())
 		return;
 
-	// calculate forward angle for velocity
-	makevectors(self.v_angle);
-	// wake monsters up
-	self.show_hostile = time + 1;
+	makevectors	(self.v_angle);			// calculate forward angle for velocity
+	self.show_hostile = time + 1;	// wake monsters up
 
 	if (self.weapon == IT_AXE)
 	{
@@ -964,7 +957,7 @@ W_ChangeWeapon
 */
 void() W_ChangeWeapon =
 {
-	local float it, am, fl;
+	local	float	it, am, fl;
 
 	it = self.items;
 	am = 0;
@@ -1020,20 +1013,20 @@ void() W_ChangeWeapon =
 	self.impulse = 0;
 
 	if (!(self.items & fl))
-	{
-		// don't have the weapon or the ammo
+	{	// don't have the weapon or the ammo
 		sprint (self, "no weapon.\n");
 		return;
 	}
 
 	if (am)
-	{
-		// don't have the ammo
+	{	// don't have the ammo
 		sprint (self, "not enough ammo.\n");
 		return;
 	}
 
-	// set weapon, set ammo
+//
+// set weapon, set ammo
+//
 	self.weapon = fl;
 	W_SetCurrentAmmo ();
 };
@@ -1078,7 +1071,7 @@ Go to the next weapon with ammo
 */
 void() CycleWeaponCommand =
 {
-	local float it, am;
+	local	float	it, am;
 
 	it = self.items;
 	self.impulse = 0;
@@ -1140,6 +1133,7 @@ void() CycleWeaponCommand =
 			return;
 		}
 	}
+
 };
 
 /*
@@ -1151,7 +1145,7 @@ Go to the prev weapon with ammo
 */
 void() CycleWeaponReverseCommand =
 {
-	local float it, am;
+	local   float   it, am;
 
 	it = self.items;
 	self.impulse = 0;
@@ -1213,6 +1207,7 @@ void() CycleWeaponReverseCommand =
 			return;
 		}
 	}
+
 };
 
 /*
@@ -1276,7 +1271,7 @@ void() W_WeaponFrame =
 
 	ImpulseCommands ();
 
-	// check for attack
+// check for attack
 	if (self.button0)
 	{
 		SuperDamageSound ();

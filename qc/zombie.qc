@@ -163,8 +163,7 @@ ATTACKS
 void() ZombieGrenadeTouch =
 {
 	if (other == self.owner)
-		// don't explode on owner
-		return;
+		return;		// don't explode on owner
 	if (other.takedamage)
 	{
 		T_Damage (other, self, self.owner, 10 );
@@ -172,8 +171,7 @@ void() ZombieGrenadeTouch =
 		remove (self);
 		return;
 	}
-	// bounce sound
-	sound (self, CHAN_WEAPON, "zombie/z_miss.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "zombie/z_miss.wav", 1, ATTN_NORM);	// bounce sound
 	self.velocity = '0 0 0';
 	self.avelocity = '0 0 0';
 	self.touch = SUB_Remove;
@@ -186,8 +184,8 @@ ZombieFireGrenade
 */
 void(vector st) ZombieFireGrenade =
 {
-	local entity missile;
-	local vector org;
+	local	entity missile;
+	local	vector	org;
 
 	sound (self, CHAN_WEAPON, "zombie/z_shot1.wav", 1, ATTN_NORM);
 
@@ -196,10 +194,11 @@ void(vector st) ZombieFireGrenade =
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 
-	// calc org
+// calc org
 	org = self.origin + st_x * v_forward + st_y * v_right + (st_z - 24) * v_up;
 
-	// set missile speed
+// set missile speed
+
 	makevectors (self.angles);
 
 	missile.velocity = normalize(self.enemy.origin - org);
@@ -210,7 +209,7 @@ void(vector st) ZombieFireGrenade =
 
 	missile.touch = ZombieGrenadeTouch;
 
-	// set missile duration
+// set missile duration
 	missile.nextthink = time + 2.5;
 	missile.think = SUB_Remove;
 
@@ -264,7 +263,7 @@ void() zombie_attc12	=[	$attc12,	zombie_run1		] {ai_face();ZombieFireGrenade('-1
 
 void() zombie_missile =
 {
-	local float r;
+	local float	r;
 
 	r = random();
 
@@ -443,18 +442,15 @@ void(entity attacker, float take) zombie_pain =
 {
 	local float r;
 
-	// always reset health
-	self.health = 60;
+	self.health = 60;		// always reset health
 
 	if (take < 9)
-		// totally ignore
-		return;
+		return;				// totally ignore
 
 	if (self.inpain == 2)
-		// down on ground, so don't reset any counters
-		return;
+		return;			// down on ground, so don't reset any counters
 
-	// go down immediately if a big enough hit
+// go down immediately if a big enough hit
 	if (take >= 25)
 	{
 		self.inpain = 2;
@@ -464,21 +460,20 @@ void(entity attacker, float take) zombie_pain =
 
 	if (self.inpain)
 	{
-		// if hit again in next gre seconds while not in pain frames, definitely drop
+// if hit again in next gre seconds while not in pain frames, definately drop
 		self.pain_finished = time + 3;
-		// currently going through an animation, don't change
-		return;
+		return;			// currently going through an animation, don't change
 	}
 
 	if (self.pain_finished > time)
 	{
-		// hit again, so drop down
+// hit again, so drop down
 		self.inpain = 2;
 		zombie_paine1 ();
 		return;
 	}
 
-	// gp into one of the fast pain animations
+// gp into one of the fast pain animations
 	self.inpain = 1;
 
 	r = random();

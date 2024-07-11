@@ -28,7 +28,9 @@ void() info_null =
 /*QUAKED info_notnull (0 0.5 0) (-4 -4 -4) (4 4 4)
 Used as a positional target for lightning.
 */
-void() info_notnull = {};
+void() info_notnull =
+{
+};
 
 //============================================================================
 
@@ -57,8 +59,7 @@ If targeted, it will toggle between on or off.
 void() light =
 {
 	if (!self.targetname)
-	{
-		// inert light
+	{	// inert light
 		remove(self);
 		return;
 	}
@@ -125,7 +126,7 @@ void() light_globe =
 void() FireAmbient =
 {
 	precache_sound ("ambience/fire1.wav");
-	// attenuate fast
+// attenuate fast
 	ambientsound (self.origin, "ambience/fire1.wav", 0.5, ATTN_STATIC);
 };
 
@@ -198,7 +199,7 @@ void() misc_fireball =
 
 void() fire_fly =
 {
-	local entity fireball;
+	local entity	fireball;
 
 	fireball = spawn();
 	fireball.solid = SOLID_TRIGGER;
@@ -250,7 +251,7 @@ TESTING THING
 
 void() misc_explobox =
 {
-	local float oldz;
+	local float	oldz;
 
 	self.solid = SOLID_BBOX;
 	self.movetype = MOVETYPE_NONE;
@@ -282,7 +283,7 @@ Smaller exploding box, REGISTERED ONLY
 
 void() misc_explobox2 =
 {
-	local float oldz;
+	local float	oldz;
 
 	self.solid = SOLID_BBOX;
 	self.movetype = MOVETYPE_NONE;
@@ -406,7 +407,7 @@ void() air_bubbles =
 
 void() make_bubbles =
 {
-	local entity bubble;
+	local entity	bubble;
 
 	bubble = spawn();
 	setmodel (bubble, "progs/s_bubble.spr");
@@ -427,8 +428,7 @@ void() make_bubbles =
 
 void() bubble_split =
 {
-	local entity bubble;
-
+	local entity	bubble;
 	bubble = spawn();
 	setmodel (bubble, "progs/s_bubble.spr");
 	setorigin (bubble, self.origin);
@@ -459,7 +459,7 @@ void() bubble_remove =
 
 void() bubble_bob =
 {
-	local float rnd1, rnd2, rnd3;
+	local float		rnd1, rnd2, rnd3;
 
 	self.cnt = self.cnt + 1;
 	if (self.cnt == 4)
@@ -495,8 +495,10 @@ void() bubble_bob =
 };
 
 /*QUAKED viewthing (0 .5 .8) (-8 -8 -8) (8 8 8)
+
 Just for the debugging level.  Don't use
 */
+
 void() viewthing =
 {
 	self.movetype = MOVETYPE_NONE;
@@ -515,8 +517,7 @@ SIMPLE BMODELS
 */
 
 void() func_wall_use =
-{
-	// change to alternate textures
+{	// change to alternate textures
 	self.frame = 1 - self.frame;
 };
 
@@ -551,8 +552,7 @@ This bmodel will appear if the episode has allready been completed, so players c
 void() func_episodegate =
 {
 	if (!(serverflags & self.spawnflags))
-		// can still enter episode
-		return;
+		return;			// can still enter episode
 
 	self.angles = '0 0 0';
 	self.movetype = MOVETYPE_PUSH;	// so it doesn't get pushed by anything
@@ -567,8 +567,7 @@ This bmodel appears unless players have all of the episode sigils.
 void() func_bossgate =
 {
 	if ( (serverflags & 15) == 15)
-		// all episodes completed
-		return;
+		return;		// all episodes completed
 	self.angles = '0 0 0';
 	self.movetype = MOVETYPE_PUSH;	// so it doesn't get pushed by anything
 	self.solid = SOLID_BSP;

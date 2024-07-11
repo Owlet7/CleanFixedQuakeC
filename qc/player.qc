@@ -157,8 +157,7 @@ void()	player_run =[	$rockrun1,	player_run	]
 };
 
 
-void()	player_shot1 =	[$shotatt1, player_shot2	]
-{
+void()	player_shot1 =	[$shotatt1, player_shot2	] {
 	self.weaponframe=1;
 	self.effects = self.effects | EF_MUZZLEFLASH;
 };
@@ -196,10 +195,7 @@ void() player_nail1   =[$nailatt1, player_nail2  ]
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
 	if (!self.button0)
-	{
-		player_run ();
-		return;
-	}
+		{player_run ();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 9)
 		self.weaponframe = 1;
@@ -212,10 +208,7 @@ void() player_nail2   =[$nailatt2, player_nail1  ]
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
 	if (!self.button0)
-	{
-		player_run ();
-		return;
-	}
+		{player_run ();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 9)
 		self.weaponframe = 1;
@@ -231,10 +224,7 @@ void() player_light1   =[$light1, player_light2  ]
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
 	if (!self.button0)
-	{
-		player_run ();
-		return;
-	}
+		{player_run ();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 5)
 		self.weaponframe = 1;
@@ -247,10 +237,7 @@ void() player_light2   =[$light2, player_light1  ]
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
 	if (!self.button0)
-	{
-		player_run ();
-		return;
-	}
+		{player_run ();return;}
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe == 5)
 		self.weaponframe = 1;
@@ -262,8 +249,7 @@ void() player_light2   =[$light2, player_light1  ]
 //============================================================================
 
 
-void() player_rocket1   =[$rockatt1, player_rocket2  ]
-{
+void() player_rocket1   =[$rockatt1, player_rocket2  ] {
 	self.weaponframe=1;
 	self.effects = self.effects | EF_MUZZLEFLASH;
 };
@@ -276,7 +262,7 @@ void(float num_bubbles) DeathBubbles;
 
 void() PainSound =
 {
-	local float rs;
+	local float		rs;
 
 	if (self.health < 0)
 		return;
@@ -287,7 +273,7 @@ void() PainSound =
 		return;
 	}
 
-	// water pain sounds
+// water pain sounds
 	if (self.watertype == CONTENT_WATER && self.waterlevel == 3)
 	{
 		DeathBubbles(1);
@@ -298,10 +284,10 @@ void() PainSound =
 		return;
 	}
 
-	// slime pain sounds
+// slime pain sounds
 	if (self.watertype == CONTENT_SLIME)
 	{
-	// FIX ME	put in some steam here
+// FIX ME	put in some steam here
 		if (random() > 0.5)
 			sound (self, CHAN_VOICE, "player/lburn1.wav", 1, ATTN_NORM);
 		else
@@ -325,9 +311,9 @@ void() PainSound =
 	}
 	self.pain_finished = time + 0.5;
 
-	// don't make multiple pain sounds right after each other
+// don't make multiple pain sounds right after each other
 
-	// ax pain sound
+// ax pain sound
 	if (self.axhitme == 1)
 	{
 		self.axhitme = 0;
@@ -376,8 +362,7 @@ void(entity attacker, float damage) player_pain =
 		return;
 
 	if (self.invisible_finished > time)
-		// eyes don't have pain frames
-		return;
+		return;		// eyes don't have pain frames
 
 	if (self.weapon == IT_AXE)
 		player_axpain1 ();
@@ -394,8 +379,7 @@ void() player_die_ax1;
 
 void() DeathBubblesSpawn =
 {
-	local entity bubble;
-
+	local entity	bubble;
 	if (self.owner.waterlevel != 3)
 		return;
 	bubble = spawn();
@@ -419,7 +403,7 @@ void() DeathBubblesSpawn =
 
 void(float num_bubbles) DeathBubbles =
 {
-	local entity bubble_spawner;
+	local entity	bubble_spawner;
 
 	bubble_spawner = spawn();
 	setorigin (bubble_spawner, self.origin);
@@ -436,7 +420,7 @@ void(float num_bubbles) DeathBubbles =
 
 void() DeathSound =
 {
-	local float rs;
+	local float		rs;
 
 	// water death sounds
 	if (self.waterlevel == 3)
@@ -474,23 +458,9 @@ vector(float dm) VelocityForDamage =
 {
 	local vector v;
 
-	// check if the inflictor had velocity, e.g. like a rocket or explode box
-	if (vlen(damage_inflictor.velocity) > 0)
-	{
-		// impact some of inflictor's velocity on the gibs
-		v = 0.5 * damage_inflictor.velocity;
-		v = v + (25 * normalize(self.origin - damage_inflictor.origin));
-		v_z = 100 + 100 * random();
-		v_x = v_x + (50 * crandom());
-		v_y = v_y + (50 * crandom());
-	}
-	else
-	{
-		// use a random velocity for the gibs
-		v_x = 100 * crandom();
-		v_y = 100 * crandom();
-		v_z = 200 + 100 * random();
-	}
+	v_x = 100 * crandom();
+	v_y = 100 * crandom();
+	v_z = 200 + 100 * random();
 
 	if (dm > -50)
 	{
@@ -508,7 +478,7 @@ vector(float dm) VelocityForDamage =
 
 void(string gibname, float dm) ThrowGib =
 {
-	local entity new;
+	local	entity new;
 
 	new = spawn();
 	new.origin = self.origin;
@@ -573,16 +543,14 @@ void() GibPlayer =
 
 void() PlayerDie =
 {
-	local float i;
+	local	float	i;
 
 	self.items = self.items - (self.items & IT_INVISIBILITY);
-	// don't die as eyes
-	self.invisible_finished = 0;
+	self.invisible_finished = 0;	// don't die as eyes
 	self.invincible_finished = 0;
 	self.super_damage_finished = 0;
 	self.radsuit_finished = 0;
-	// don't use eyes
-	self.modelindex = modelindex_player;
+	self.modelindex = modelindex_player;	// don't use eyes
 
 	if (deathmatch || coop)
 		DropBackpack();
@@ -631,11 +599,9 @@ void() PlayerDie =
 };
 
 void() set_suicide_frame =
-{
-	// used by kill command and disconnect command
+{	// used by kill command and disconnect command
 	if (self.model != "progs/player.mdl")
-		// already gibbed
-		return;
+		return;	// already gibbed
 	self.frame = $deatha11;
 	self.solid = SOLID_NOT;
 	self.movetype = MOVETYPE_TOSS;

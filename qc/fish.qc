@@ -85,8 +85,7 @@ void() f_walk16 =[      $swim16, f_walk17 ] {ai_walk(8);};
 void() f_walk17 =[      $swim17, f_walk18 ] {ai_walk(8);};
 void() f_walk18 =[      $swim18, f_walk1 ] {ai_walk(8);};
 
-void() f_run1  =[      $swim1, f_run2 ]
-{
+void() f_run1  =[      $swim1, f_run2 ] {
 	ai_run(12);
 	if (random() < 0.5)
 		sound (self, CHAN_VOICE, "fish/idle.wav", 1, ATTN_NORM);
@@ -102,12 +101,11 @@ void() f_run9  =[      $swim17, f_run1 ] {ai_run(12);};
 
 void() fish_melee =
 {
-	local vector delta;
-	local float ldmg;
+	local vector	delta;
+	local float 	ldmg;
 
 	if (!self.enemy)
-		// removed before stroke
-		return;
+		return;		// removed before stroke
 
 	delta = self.enemy.origin - self.origin;
 
@@ -138,8 +136,7 @@ void() f_attack16       =[      $attack16,      f_attack17] {ai_charge(10);};
 void() f_attack17       =[      $attack17,      f_attack18] {ai_charge(10);};
 void() f_attack18       =[      $attack18,      f_run1    ] {ai_charge(10);};
 
-void() f_death1 =[      $death1,        f_death2        ]
-{
+void() f_death1 =[      $death1,        f_death2        ] {
 	sound (self, CHAN_VOICE, "fish/death.wav", 1, ATTN_NORM);
 };
 void() f_death2 =[      $death2,        f_death3        ] {self.solid = SOLID_NOT;};
@@ -163,28 +160,6 @@ void() f_death19 =[      $death19,       f_death20       ] {};
 void() f_death20 =[      $death20,       f_death21       ] {};
 void() f_death21 =[      $death21,       f_death21       ] {};
 
-/* Handle fish death, either die animation or gib. */
-void() fish_die =
-{
-	// check for gib death
-	if (self.health < -20)
-	{
-		// play gib sound
-		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
-		// can't call ThrowHead so remove the entity on the next think
-		self.think = SUB_Remove;
-		self.nextthink= time + 0.1;
-		// throw some normal gibs
-		ThrowGib ("progs/gib1.mdl", self.health);
-		ThrowGib ("progs/gib2.mdl", self.health);
-		ThrowGib ("progs/gib3.mdl", self.health);
-		return;
-	}
-
-	// run normal death animation
-	f_death1();
-};
-
 void() f_pain1  =[      $pain1, f_pain2 ] {};
 void() f_pain2  =[      $pain2, f_pain3 ] {ai_pain(6);};
 void() f_pain3  =[      $pain3, f_pain4 ] {ai_pain(6);};
@@ -197,7 +172,8 @@ void() f_pain9  =[      $pain9, f_run1 ] {ai_pain(6);};
 
 void(entity attacker, float damage)	fish_pain =
 {
-	// fish always do pain frames
+
+// fish always do pain frames
 	f_pain1 ();
 };
 
@@ -229,9 +205,10 @@ void() monster_fish =
 	self.th_stand = f_stand1;
 	self.th_walk = f_walk1;
 	self.th_run = f_run1;
-	self.th_die = fish_die;
+	self.th_die = f_death1;
 	self.th_pain = fish_pain;
 	self.th_melee = f_attack1;
 
 	swimmonster_start ();
 };
+

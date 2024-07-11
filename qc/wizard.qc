@@ -64,22 +64,22 @@ if self.enemy maintains it's current velocity
 */
 void(entity missile, float mspeed, float accuracy) LaunchMissile =
 {
-	local vector vec, move;
-	local float fly;
+	local	vector	vec, move;
+	local	float	fly;
 
 	makevectors (self.angles);
 
-	// set missile speed
+// set missile speed
 	vec = self.enemy.origin + self.enemy.mins + self.enemy.size * 0.7 - missile.origin;
 
-	// calc approximate time for missile to reach vec
+// calc aproximate time for missile to reach vec
 	fly = vlen (vec) / mspeed;
 
-	// get the entities xy velocity
+// get the entities xy velocity
 	move = self.enemy.velocity;
 	move_z = 0;
 
-	// project the target forward in time
+// project the target forward in time
 	vec = vec + move * fly;
 
 	vec = normalize(vec);
@@ -90,7 +90,7 @@ void(entity missile, float mspeed, float accuracy) LaunchMissile =
 	missile.angles = '0 0 0';
 	missile.angles_y = vectoyaw(missile.velocity);
 
-	// set missile duration
+// set missile duration
 	missile.nextthink = time + 5;
 	missile.think = SUB_Remove;
 };
@@ -106,9 +106,9 @@ WizardCheckAttack
 */
 float()	WizardCheckAttack =
 {
-	local vector spot1, spot2;
-	local entity targ;
-	local float chance;
+	local vector	spot1, spot2;
+	local entity	targ;
+	local float		chance;
 
 	if (time < self.attack_finished)
 		return FALSE;
@@ -127,15 +127,14 @@ float()	WizardCheckAttack =
 
 	targ = self.enemy;
 
-	// see if any entities are in the way of the shot
+// see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 
 	traceline (spot1, spot2, FALSE, self);
 
 	if (trace_ent != targ)
-	{
-		// don't have a clear shot, so move to a side
+	{	// don't have a clear shot, so move to a side
 		if (self.attack_state != AS_STRAIGHT)
 		{
 			self.attack_state = AS_STRAIGHT;
@@ -208,8 +207,8 @@ FAST ATTACKS
 
 void() Wiz_FastFire =
 {
-	local vector vec;
-	local vector dst;
+	local vector		vec;
+	local vector		dst;
 
 	if (self.owner.health > 0)
 	{
@@ -234,7 +233,7 @@ void() Wiz_FastFire =
 
 void() Wiz_StartFast =
 {
-	local entity missile;
+	local	entity	missile;
 
 	sound (self, CHAN_WEAPON, "wizard/wattack.wav", 1, ATTN_NORM);
 	self.v_angle = self.angles;
@@ -266,7 +265,6 @@ void() Wiz_StartFast =
 void() Wiz_idlesound =
 {
 	local float wr;
-
 	wr = random() * 5;
 
 	if (self.waitmin < time)
@@ -289,8 +287,7 @@ void()	wiz_stand6	=[	$hover6,		wiz_stand7	] {ai_stand();};
 void()	wiz_stand7	=[	$hover7,		wiz_stand8	] {ai_stand();};
 void()	wiz_stand8	=[	$hover8,		wiz_stand1	] {ai_stand();};
 
-void()	wiz_walk1	=[	$hover1,		wiz_walk2	]
-{
+void()	wiz_walk1	=[	$hover1,		wiz_walk2	] {
 	ai_walk(8);
 	Wiz_idlesound();
 };
@@ -302,8 +299,7 @@ void()	wiz_walk6	=[	$hover6,		wiz_walk7	] {ai_walk(8);};
 void()	wiz_walk7	=[	$hover7,		wiz_walk8	] {ai_walk(8);};
 void()	wiz_walk8	=[	$hover8,		wiz_walk1	] {ai_walk(8);};
 
-void()	wiz_side1	=[	$hover1,		wiz_side2	]
-{
+void()	wiz_side1	=[	$hover1,		wiz_side2	] {
 	ai_run(8);
 	Wiz_idlesound();
 };
@@ -315,8 +311,7 @@ void()	wiz_side6	=[	$hover6,		wiz_side7	] {ai_run(8);};
 void()	wiz_side7	=[	$hover7,		wiz_side8	] {ai_run(8);};
 void()	wiz_side8	=[	$hover8,		wiz_side1	] {ai_run(8);};
 
-void()	wiz_run1	=[	$fly1,		wiz_run2	]
-{
+void()	wiz_run1	=[	$fly1,		wiz_run2	] {
 	ai_run(16);
 	Wiz_idlesound();
 };
@@ -368,7 +363,7 @@ void()	wiz_death8	=[	$death8,		wiz_death8	] {};
 
 void() wiz_die =
 {
-	// check for gib
+// check for gib
 	if (self.health < -40)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -387,8 +382,7 @@ void(entity attacker, float damage) Wiz_Pain =
 {
 	sound (self, CHAN_VOICE, "wizard/wpain.wav", 1, ATTN_NORM);
 	if (random()*70 > damage)
-		// didn't flinch
-		return;
+		return;		// didn't flinch
 
 	wiz_pain1 ();
 };
@@ -412,8 +406,7 @@ void() monster_wizard =
 	precache_model ("progs/h_wizard.mdl");
 	precache_model ("progs/w_spike.mdl");
 
-	// used by c code
-	precache_sound ("wizard/hit.wav");
+	precache_sound ("wizard/hit.wav");		// used by c code
 	precache_sound ("wizard/wattack.wav");
 	precache_sound ("wizard/wdeath.wav");
 	precache_sound ("wizard/widle1.wav");

@@ -68,8 +68,7 @@ void()	knight_stand7	=[	$stand7,	knight_stand8	] {ai_stand();};
 void()	knight_stand8	=[	$stand8,	knight_stand9	] {ai_stand();};
 void()	knight_stand9	=[	$stand9,	knight_stand1	] {ai_stand();};
 
-void()	knight_walk1	=[	$walk1,		knight_walk2	]
-{
+void()	knight_walk1	=[	$walk1,		knight_walk2	] {
 	if (random() < 0.2)
 		sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
 	ai_walk(3);
@@ -89,8 +88,7 @@ void()	knight_walk13	=[	$walk13,	knight_walk14	] {ai_walk(4);};
 void()	knight_walk14	=[	$walk14,	knight_walk1	] {ai_walk(3);};
 
 
-void()	knight_run1	=[	$runb1,		knight_run2	]
-{
+void()	knight_run1	=[	$runb1,		knight_run2	] {
 	if (random() < 0.2)
 		sound (self, CHAN_VOICE, "knight/idle.wav", 1,  ATTN_IDLE);
 	ai_run(16);
@@ -198,8 +196,7 @@ void()	knight_bow10	=[	$walk1,		knight_walk1	] {ai_turn();};
 
 void()	knight_die1	=[	$death1,	knight_die2	] {};
 void()	knight_die2	=[	$death2,	knight_die3	] {};
-void()	knight_die3	=[	$death3,	knight_die4	]
-{
+void()	knight_die3	=[	$death3,	knight_die4	] {
 	self.solid = SOLID_NOT;
 };
 void()	knight_die4	=[	$death4,	knight_die5	] {};
@@ -213,8 +210,7 @@ void()	knight_die10=[	$death10,	knight_die10] {};
 
 void()	knight_dieb1	=[	$deathb1,	knight_dieb2	] {};
 void()	knight_dieb2	=[	$deathb2,	knight_dieb3	] {};
-void()	knight_dieb3	=[	$deathb3,	knight_dieb4	]
-{
+void()	knight_dieb3	=[	$deathb3,	knight_dieb4	] {
 	self.solid = SOLID_NOT;
 };
 void()	knight_dieb4	=[	$deathb4,	knight_dieb5	] {};
@@ -229,7 +225,7 @@ void()	knight_dieb11 = [	$deathb11,	knight_dieb11] {};
 
 void() knight_die =
 {
-	// check for gib
+// check for gib
 	if (self.health < -40)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -240,7 +236,7 @@ void() knight_die =
 		return;
 	}
 
-	// regular death
+// regular death
 	sound (self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);
 	if (random() < 0.5)
 		knight_die1 ();

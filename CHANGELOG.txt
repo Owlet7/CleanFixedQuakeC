@@ -1,17 +1,6 @@
 Change Log
 ==========
 
-v1.6: Fixes inspired by "Scourge of Armagon" (hipnotic).
-Unreleased
-
-Game code fixes inspired by mission pack one "Scourge of Armagon" (hipnotic),
-released as v1.07.
-
-* Added directional gibs based on velocity of inflictor from qw2.30 GPL.
-* Added fish_die to support fish gib death.
-* Improved comment indenting and spacing for local variables.
-
-
 v1.5: Fixes inspired by "Quakec V1 01 Clean" by gnounc.
 19 July 2021
 
